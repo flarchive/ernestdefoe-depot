@@ -1,0 +1,1163 @@
+// Depot, on the forum side.
+//
+// Every colour is a Flarum variable or derived from one, so Depot follows the
+// forum's theme and its light, dark and high-contrast schemes with no
+// settings of its own. Category colours arrive as --label-color.
+
+.DepotPage,
+.DepotFilePage,
+.DepotDownloadModal,
+.DepotUploadModal,
+.DepotLightbox {
+  --depot-radius: 12px;
+  --depot-line: var(--control-bg);
+  --depot-card: var(--body-bg);
+  --depot-lift: 0 8px 24px -10px var(--shadow-color);
+  --depot-fresh: #2f9e5b;
+  --depot-warn: #c47d12;
+  --depot-star: #e8a317;
+}
+
+.Depot-dim { color: var(--muted-color); }
+.DepotSpotlight-art, .DepotTile-art, .DepotCard-art, .DepotFileHero-backdrop, .DepotDownload-art, .DepotRow-thumb, .DepotGallery-item, .DepotLightbox-stage, .DepotLightbox-strip button, .DepotSpotlight-thumb, .DepotMore-art, .DepotFileHero-cover {
+  image-rendering: pixelated;
+  background-size: cover;
+  background-position: center;
+}
+
+// ------------------------------------------------------------------ shared bits
+
+.Depot-labels { display: inline-flex; gap: 4px; flex-wrap: wrap; }
+.Depot-label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  padding: 0 7px;
+  border-radius: 4px;
+  background: var(--label-color);
+  color: #fff;
+  white-space: nowrap;
+  &:hover { text-decoration: none; filter: brightness(1.08); }
+}
+.Depot-label--outline {
+  background: transparent;
+  color: var(--label-color);
+  box-shadow: inset 0 0 0 1px var(--label-color);
+}
+.Depot-badge, .Depot-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.7;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--control-bg);
+  color: var(--control-color);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.Depot-badge--github { background: var(--text-color); color: var(--body-bg); }
+.Depot-pill--fresh { background: fade(#2f9e5b, 16%); color: var(--depot-fresh); }
+.Depot-pill--warn { background: fade(#c47d12, 16%); color: var(--depot-warn); }
+
+.Depot-stars { color: var(--depot-star); font-size: 11px; letter-spacing: 1px; white-space: nowrap; }
+.Depot-stars--large { font-size: 18px; }
+
+.Depot-user { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text-color); }
+.Avatar--mini { --size: 20px; font-size: 10px; }
+
+.Depot-spark { display: block; overflow: visible; }
+.Depot-spark-line { fill: none; stroke: var(--primary-color); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.Depot-spark-area { fill: var(--primary-color); opacity: 0.12; }
+.Depot-spark-dot { fill: var(--primary-color); }
+
+.Depot-chip {
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--control-bg);
+  color: var(--control-color);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  &:hover { background: var(--control-bg-shaded); }
+  &.is-active { background: var(--primary-color); color: var(--body-bg); }
+}
+.Depot-chip--static { cursor: default; }
+
+.Depot-copy {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  code {
+    flex: 1;
+    min-width: 0;
+    font-size: 12.5px;
+    background: var(--control-bg);
+    color: var(--text-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    overflow-wrap: anywhere;
+  }
+}
+.Depot-copy--small code { font-size: 11px; }
+
+.Depot-steps {
+  counter-reset: step;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 10px;
+    align-items: start;
+    &::before {
+      content: counter(step);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 12px;
+      background: var(--control-bg);
+      color: var(--primary-color);
+    }
+  }
+}
+
+.Depot-segmented {
+  display: inline-flex;
+  background: var(--control-bg);
+  border-radius: 8px;
+  padding: 3px;
+  margin: 8px 0;
+  button {
+    border: 0;
+    background: transparent;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--control-color);
+    cursor: pointer;
+    &.is-active { background: var(--body-bg); color: var(--primary-color); box-shadow: 0 1px 2px var(--shadow-color); }
+  }
+}
+
+.DepotNotice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  background: fade(#c47d12, 12%);
+  color: var(--depot-warn);
+  font-weight: 600;
+  .Button { margin-left: auto; }
+}
+.DepotNotice--info { background: var(--control-bg); color: var(--control-color); font-weight: 500; align-items: flex-start; .icon { margin-top: 3px; } }
+
+// ------------------------------------------------------------------ spotlight
+
+.DepotSpotlight {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  color: #fff;
+  background: #0d1117;
+  margin-top: calc(-1 * var(--page-top-padding, 0px));
+}
+.DepotSpotlight-art {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 0.9s ease, transform 8s linear;
+  &.is-active { opacity: 1; transform: scale(1); }
+}
+.DepotSpotlight-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 12, 18, 0.92) 0%, rgba(8, 12, 18, 0.7) 42%, rgba(8, 12, 18, 0.1) 100%),
+    linear-gradient(0deg, rgba(8, 12, 18, 0.75) 0%, rgba(8, 12, 18, 0) 45%);
+}
+.DepotSpotlight-content {
+  position: relative;
+  padding-top: 52px;
+  padding-bottom: 92px;
+}
+.DepotSpotlight-swap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  animation: depot-rise 0.5s ease both;
+}
+.DepotSpotlight-text { max-width: 560px; }
+.DepotSpotlight-eyebrow {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd27a;
+}
+.DepotSpotlight-title { color: #fff; font-size: 40px; line-height: 1.05; margin: 10px 0 8px; letter-spacing: -0.02em; text-wrap: balance; }
+.DepotSpotlight-tagline { font-size: 16px; opacity: 0.88; margin: 0 0 14px; }
+.DepotSpotlight-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 20px;
+  > span:not(.Depot-labels) + span::before { content: '·'; margin-right: 14px; opacity: 0.6; }
+}
+.DepotSpotlight-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.DepotSpotlight-ghost {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  &:hover, &:focus { background: rgba(255, 255, 255, 0.24); color: #fff; }
+}
+.DepotSpotlight-side { display: flex; gap: 12px; }
+.DepotSpotlight-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 96px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  b { font-size: 24px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  span { font-size: 12px; opacity: 0.85; }
+}
+.DepotSpotlight-picker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  display: flex;
+  gap: 8px;
+}
+.DepotSpotlight-thumb {
+  position: relative;
+  width: 76px;
+  height: 44px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.7;
+  padding: 0;
+  transition: opacity 0.2s, border-color 0.2s;
+  &:hover { opacity: 1; }
+  &.is-active { opacity: 1; border-color: #fff; }
+}
+.DepotSpotlight-progress { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: #fff; }
+.DepotSpotlight-thumb.is-active .DepotSpotlight-progress { animation: depot-progress 8s linear forwards; }
+
+@keyframes depot-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes depot-progress { to { width: 100%; } }
+
+// ------------------------------------------------------------------ category hero
+
+.DepotHero {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: var(--hero-tint);
+  margin-top: calc(-1 * var(--page-top-padding, 0px));
+}
+.DepotHero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--hero-tint) 10%, transparent 90%); opacity: 0.85; }
+.DepotHero-inner { position: relative; z-index: 1; padding-top: 36px; padding-bottom: 32px; }
+.DepotHero-up { color: #fff; opacity: 0.85; font-weight: 600; font-size: 13px; &:hover { color: #fff; opacity: 1; } }
+.DepotHero-title { color: #fff; font-size: 30px; margin: 6px 0 4px; letter-spacing: -0.01em; .icon { opacity: 0.85; margin-right: 4px; } }
+.DepotHero-desc { margin: 0 0 10px; opacity: 0.9; max-width: 60ch; }
+.DepotHero-count { font-size: 12px; font-weight: 700; background: rgba(0, 0, 0, 0.2); padding: 3px 10px; border-radius: 999px; }
+
+// ------------------------------------------------------------------ sidebar nav
+
+.DepotPage .IndexPage-nav {
+  .Depot-nav-root .Button-icon { color: var(--label-color); }
+}
+
+.DepotSubnav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; .Depot-chip { text-decoration: none; } }
+
+// ------------------------------------------------------------------ tiles
+
+.DepotTiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.DepotTile {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 92px;
+  padding: 12px;
+  border-radius: 10px;
+  color: #fff;
+  background: var(--label-color);
+  isolation: isolate;
+  &:hover { text-decoration: none; color: #fff; .DepotTile-art { transform: scale(1.08); } }
+  &::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.05)); }
+}
+.DepotTile-art { position: absolute; inset: 0; z-index: -2; transition: transform 0.4s ease; }
+.DepotTile-icon { position: absolute; top: 10px; right: 12px; opacity: 0.85; }
+.DepotTile-name { font-weight: 800; font-size: 15px; }
+.DepotTile-count { font-size: 11.5px; opacity: 0.85; }
+.DepotTile--locked .DepotTile-art { filter: blur(3px) grayscale(0.5); }
+
+// ------------------------------------------------------------------ toolbar
+
+.DepotToolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.DepotToolbar-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.DepotToolbar-search {
+  position: relative;
+  margin-left: auto;
+  .icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted-color); font-size: 12px; }
+  .FormControl { padding-left: 32px; width: 200px; height: 36px; border-radius: 18px; }
+}
+.DepotToolbar-view {
+  display: flex;
+  gap: 2px;
+  .Button.active { background: var(--control-bg-shaded); color: var(--primary-color); }
+}
+.DepotToolbar-summary { font-size: 12.5px; margin: 6px 0 12px; display: flex; gap: 10px; align-items: center; }
+.Depot-clear {
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary-color);
+  color: var(--body-bg);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 9px;
+  cursor: pointer;
+}
+
+// ------------------------------------------------------------------ grid cards
+
+.DepotGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: 16px;
+}
+.DepotCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--depot-radius);
+  background: var(--depot-card);
+  box-shadow: 0 0 0 1px var(--depot-line);
+  overflow: hidden;
+  color: var(--text-color);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  &:hover, &:focus-visible {
+    text-decoration: none;
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 1px var(--depot-line), var(--depot-lift);
+    .DepotCard-art { background-size: 112%; }
+  }
+}
+.DepotCard-art {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  transition: background-size 0.4s ease;
+}
+.DepotCard-version {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-family-monospace, ui-monospace, monospace);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+.DepotCard-fresh {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--depot-fresh);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.DepotCard-body { padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.DepotCard-title { margin: 0; font-size: 16px; line-height: 1.25; color: var(--heading-color); }
+.DepotCard-tagline {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted-color);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.DepotCard-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px; margin-top: auto; }
+.DepotCard-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-top: 1px solid var(--depot-line);
+  font-size: 12.5px;
+}
+.Depot-metric { display: inline-flex; align-items: center; gap: 5px; color: var(--muted-color); white-space: nowrap; b { color: var(--text-color); font-variant-numeric: tabular-nums; } }
+.Depot-metric--end { margin-left: auto; }
+
+// ------------------------------------------------------------------ list rows
+
+.DepotList { display: flex; flex-direction: column; }
+.DepotRow {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 12px;
+  border-radius: 10px;
+  color: var(--text-color);
+  &:hover { background: var(--discussion-list-item-bg-hover, var(--control-bg)); text-decoration: none; }
+  & + & { box-shadow: 0 -1px 0 var(--depot-line); }
+}
+.DepotRow-thumb { width: 72px; height: 72px; border-radius: 12px; }
+.DepotRow-title { margin: 0; font-size: 16px; color: var(--heading-color); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.DepotRow-version { font-family: var(--font-family-monospace, ui-monospace, monospace); font-size: 12px; font-weight: 500; color: var(--muted-color); }
+.DepotRow-tagline { margin: 2px 0 6px; font-size: 13px; color: var(--muted-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.DepotRow-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; font-size: 12.5px; }
+.DepotRow-trend { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; }
+.DepotRow-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 96px; }
+.DepotRow-downloads { font-weight: 700; font-size: 15px; color: var(--heading-color); font-variant-numeric: tabular-nums; .icon { color: var(--muted-color); font-size: 12px; } }
+
+// ------------------------------------------------------------------ locked
+
+.DepotLocked {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--depot-radius);
+  box-shadow: 0 0 0 1px var(--depot-line);
+  display: grid;
+  min-height: 140px;
+}
+.DepotLocked-text {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
+  padding: 18px;
+  background: linear-gradient(0deg, var(--body-bg) 20%, transparent);
+  > .icon { font-size: 20px; color: var(--muted-color); }
+  b { font-size: 15px; color: var(--heading-color); }
+  .Button { margin-top: 6px; }
+}
+.DepotLocked--grid { aspect-ratio: auto; }
+.DepotLocked--list { margin-top: 10px; .DepotLocked-text { flex-direction: row; gap: 12px; justify-content: flex-start; > .Button { margin: 0 0 0 auto; } } }
+
+.DepotEmpty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted-color);
+  > .icon { font-size: 36px; opacity: 0.5; }
+  h3 { color: var(--heading-color); margin: 12px 0 4px; }
+}
+
+// ------------------------------------------------------------------ file page hero
+
+.DepotFileHero {
+  position: relative;
+  overflow: hidden;
+  background: #0d1117;
+  color: #fff;
+  margin-top: calc(-1 * var(--page-top-padding, 0px));
+}
+.DepotFileHero-backdrop { position: absolute; inset: -30px; filter: blur(22px) saturate(1.3); opacity: 0.55; transform: scale(1.1); }
+.DepotFileHero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 12, 18, 0.85), rgba(8, 12, 18, 0.35)); }
+.DepotFileHero-inner { position: relative; z-index: 1; display: flex; gap: 24px; align-items: center; padding-top: 34px; padding-bottom: 30px; }
+.DepotFileHero-cover { flex: none; width: 128px; height: 128px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.DepotFileHero-labels { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.DepotFileHero-title { color: #fff; font-size: 34px; line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.02em; text-wrap: balance; }
+.DepotFileHero-tagline { margin: 0 0 12px; font-size: 15px; opacity: 0.85; max-width: 62ch; }
+.DepotFileHero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 13px;
+  .Depot-user { color: #fff; }
+  .Depot-dim { color: rgba(255, 255, 255, 0.65); }
+}
+.DepotFileHero-rating { display: inline-flex; gap: 6px; align-items: center; font-weight: 700; }
+
+// ------------------------------------------------------------------ file layout
+
+.DepotFile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 32px;
+  align-items: start;
+  padding-top: 8px;
+}
+.DepotFilePage .Page-container { display: block; }
+.DepotTabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--depot-line);
+  margin-bottom: 22px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  button {
+    border: 0;
+    background: transparent;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--muted-color);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    &:hover { color: var(--text-color); }
+    &.is-active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+  }
+}
+.DepotTabs-count { font-size: 11px; font-weight: 700; background: var(--control-bg); color: var(--control-color); padding: 0 7px; border-radius: 999px; line-height: 1.7; }
+
+.DepotOverview { display: flex; flex-direction: column; gap: 28px; }
+.DepotOverview h3, .DepotFacts h3, .DepotLatest h3 { font-size: 15px; margin: 0 0 12px; color: var(--heading-color); }
+
+.DepotGallery {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-auto-rows: 112px;
+}
+.DepotGallery-item {
+  border: 0;
+  padding: 0;
+  border-radius: 10px;
+  cursor: zoom-in;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.2s;
+  &:hover { filter: brightness(1.08); }
+  &:first-child { grid-row: span 2; }
+  span { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, 0.5); color: #fff; font-weight: 800; font-size: 18px; }
+}
+.DepotGallery--1 { grid-template-columns: 1fr; grid-auto-rows: 260px; .DepotGallery-item:first-child { grid-row: auto; } }
+.DepotGallery--3 { grid-template-columns: 2fr 1fr; }
+
+.DepotProse { font-size: 15px; line-height: 1.7; max-width: 68ch; p { margin: 0 0 12px; } }
+
+.DepotFacts dl {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px 24px;
+  margin: 0;
+  padding: 16px 18px;
+  border-radius: var(--depot-radius);
+  background: var(--control-bg-light, var(--control-bg));
+  font-size: 14px;
+  dt { color: var(--muted-color); }
+  dd { margin: 0; font-weight: 600; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+}
+.DepotFacts-chips { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+
+.DepotRequires-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px var(--depot-line);
+  > .icon { color: var(--primary-color); font-size: 16px; width: 20px; text-align: center; }
+  div { display: flex; flex-direction: column; }
+  .Depot-pill { margin-left: auto; }
+}
+
+.DepotLatest-head { display: flex; align-items: center; justify-content: space-between; h3 { margin: 0; } margin-bottom: 10px; }
+
+.DepotChanges { display: flex; flex-direction: column; gap: 10px; }
+.DepotChanges-group {
+  --kind: var(--primary-color);
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  ul { margin: 0; padding-left: 18px; line-height: 1.6; }
+}
+.DepotChanges-group--added { --kind: #2f9e5b; }
+.DepotChanges-group--fixed { --kind: #c47d12; }
+.DepotChanges-kind {
+  align-self: start;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--kind);
+  background: color-mix(in srgb, var(--kind) 14%, transparent);
+}
+
+.DepotMore-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.DepotMore-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 10px;
+  color: var(--text-color);
+  box-shadow: 0 0 0 1px var(--depot-line);
+  &:hover { text-decoration: none; background: var(--control-bg); }
+  > span:last-child { display: flex; flex-direction: column; min-width: 0; font-size: 12.5px; b { font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
+}
+.DepotMore-art { flex: none; width: 48px; height: 48px; border-radius: 8px; }
+
+// ------------------------------------------------------------------ versions
+
+.DepotTimeline { list-style: none; margin: 0; padding: 0 0 0 22px; position: relative; }
+.DepotTimeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: var(--depot-line); }
+.DepotTimeline-item { position: relative; margin-bottom: 12px; }
+.DepotTimeline-dot { position: absolute; left: -22px; top: 18px; width: 14px; height: 14px; border-radius: 50%; background: var(--body-bg); box-shadow: inset 0 0 0 3px var(--muted-more-color, var(--muted-color)); }
+.DepotTimeline-item.is-latest .DepotTimeline-dot { box-shadow: inset 0 0 0 4px var(--primary-color); }
+.DepotTimeline-card { border-radius: var(--depot-radius); box-shadow: 0 0 0 1px var(--depot-line); overflow: hidden; }
+.DepotTimeline-item.is-latest .DepotTimeline-card { box-shadow: 0 0 0 1px var(--primary-color); }
+.DepotTimeline-head {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  padding: 13px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  &:hover { background: var(--control-bg-light, var(--control-bg)); }
+}
+.DepotTimeline-version { font-family: var(--font-family-monospace, ui-monospace, monospace); font-weight: 800; font-size: 15px; color: var(--heading-color); }
+.DepotTimeline-caret { margin-left: auto; color: var(--muted-color); }
+.DepotTimeline-body { padding: 4px 16px 14px; }
+.DepotTimeline-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--depot-line); }
+.DepotTimeline-sha { font-size: 11.5px; color: var(--muted-color); background: none; }
+
+// ------------------------------------------------------------------ reviews
+
+.DepotReviews-summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: var(--depot-radius);
+  background: var(--control-bg-light, var(--control-bg));
+  margin-bottom: 10px;
+}
+.DepotReviews-score { display: flex; flex-direction: column; align-items: center; gap: 4px; b { font-size: 44px; line-height: 1; color: var(--heading-color); font-variant-numeric: tabular-nums; } span { font-size: 12px; } }
+.DepotReviews-bars { display: flex; flex-direction: column; gap: 3px; }
+.DepotReviews-bar {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 28px;
+  gap: 10px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  padding: 2px 4px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text-color);
+  .icon { color: var(--depot-star); font-size: 10px; }
+  &:hover, &.is-active { background: var(--body-bg); }
+}
+.DepotReviews-track { height: 8px; border-radius: 4px; background: var(--control-bg); overflow: hidden; i { display: block; height: 100%; background: var(--depot-star); border-radius: 4px; } }
+.DepotReviews-none { padding: 20px 0; }
+.DepotReview { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--depot-line); &:last-child { border-bottom: 0; } }
+.DepotReview-body {
+  header { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; font-size: 12.5px; b { font-size: 14px; color: var(--heading-color); } }
+  p { margin: 6px 0 8px; line-height: 1.6; }
+}
+.DepotReview-reply {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--control-bg-light, var(--control-bg));
+  border-left: 3px solid var(--primary-color);
+  margin-bottom: 8px;
+  font-size: 13px;
+  p { margin: 2px 0 0; }
+}
+.DepotReview-helpful {
+  border: 0;
+  background: var(--control-bg);
+  color: var(--control-color);
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  &.is-active { background: var(--primary-color); color: var(--body-bg); }
+}
+
+// ------------------------------------------------------------------ discussion
+
+.DepotThread {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--depot-radius);
+  background: var(--control-bg-light, var(--control-bg));
+  margin-bottom: 8px;
+  > .icon { font-size: 20px; color: var(--primary-color); }
+  div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .Button { margin-left: auto; }
+}
+.DepotPost { padding-left: 0; padding-right: 0; .PostUser-avatar { position: static; margin-right: 8px; --size: 32px; vertical-align: middle; } .Post-header ul { display: flex; gap: 10px; align-items: center; list-style: none; padding: 0; margin: 0; } }
+.DepotReply {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px var(--depot-line);
+  color: var(--muted-color);
+  cursor: text;
+}
+
+// ------------------------------------------------------------------ file sidebar
+
+.DepotFile-side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: calc(var(--header-height) + 16px); }
+.DepotSideCard {
+  border-radius: var(--depot-radius);
+  box-shadow: 0 0 0 1px var(--depot-line);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.DepotSideCard--download { background: var(--control-bg-light, var(--body-bg)); box-shadow: 0 0 0 1px var(--depot-line), var(--depot-lift); }
+.DepotDownloadSplit {
+  display: flex;
+  width: 100%;
+  > .Button:first-child { flex: 1; justify-content: center; }
+  .Dropdown-menu { left: 0; right: 0; }
+}
+.DepotSideCard-sub { text-align: center; font-size: 12px; color: var(--muted-color); }
+.DepotWatch { width: 100%; justify-content: center; &.is-active { color: var(--primary-color); } }
+.DepotSideCard-trust { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted-color); .fa-shield-alt { color: var(--depot-fresh); } }
+.DepotSideCard-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; > div:first-child { display: flex; flex-direction: column; } }
+.DepotSideCard-big { font-size: 26px; line-height: 1.1; color: var(--heading-color); font-variant-numeric: tabular-nums; }
+.DepotSideCard-trend { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 11px; }
+.DepotStats { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; margin: 4px 0 0; padding-top: 10px; border-top: 1px solid var(--depot-line); font-size: 13px; dt { color: var(--muted-color); } dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; } }
+.DepotSideCard-label { margin: 0; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-color); }
+.DepotSideCard--source, .DepotSideCard--author { flex-direction: row; align-items: center; > div { display: flex; flex-direction: column; min-width: 0; font-size: 12.5px; flex: 1; b { font-size: 14px; } } }
+.DepotSideCard--source > .icon { font-size: 24px; color: var(--heading-color); }
+.DepotApi {
+  summary { cursor: pointer; font-weight: 700; font-size: 13px; color: var(--control-color); list-style: none; &::-webkit-details-marker { display: none; } }
+  p { font-size: 12.5px; margin: 0; }
+  pre { margin: 0; font-size: 11px; background: var(--code-bg, var(--control-bg)); color: var(--code-color, var(--text-color)); border-radius: 8px; padding: 10px 12px; overflow-x: auto; }
+}
+
+// ------------------------------------------------------------------ download modal
+
+.DepotDownloadModal .Modal-body { display: flex; flex-direction: column; gap: 18px; }
+.DepotDownload-head { display: flex; gap: 16px; align-items: center; h3 { margin: 0 0 2px; } p { margin: 0; } code { font-size: 12px; } }
+.DepotDownload-art { position: relative; flex: none; width: 72px; height: 72px; border-radius: 16px; }
+.DepotDownload-check {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--depot-fresh);
+  color: #fff;
+  font-size: 12px;
+  box-shadow: 0 0 0 3px var(--body-bg);
+  animation: depot-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) both 0.15s;
+}
+@keyframes depot-pop { from { transform: scale(0); } to { transform: scale(1); } }
+.DepotDownload-retry { font-size: 12px; margin-top: 4px !important; }
+.DepotDownload-section {
+  padding: 14px 16px;
+  border-radius: var(--depot-radius);
+  background: var(--control-bg-light, var(--control-bg));
+  h4 { margin: 0 0 4px; font-size: 14px; .icon { color: var(--primary-color); margin-right: 4px; } }
+  > p { margin: 0; font-size: 13px; }
+}
+.DepotDownload-expect { margin-top: 10px; font-size: 12.5px; display: flex; flex-direction: column; gap: 4px; }
+.DepotDownload-watch {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  > div { display: flex; flex-direction: column; flex: 1; font-size: 13px; }
+}
+
+// ------------------------------------------------------------------ upload modal
+
+.DepotUploadModal .Modal-body { display: flex; flex-direction: column; gap: 18px; }
+.DepotSteps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+  li { flex: 1; position: relative; }
+  li + li::before { content: ''; position: absolute; top: 14px; left: calc(-50% + 18px); right: calc(50% + 18px); height: 2px; background: var(--depot-line); }
+  li.is-current::before, li.is-done::before { background: var(--depot-fresh); }
+  button { width: 100%; border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: var(--muted-color); padding: 0; &:disabled { cursor: default; } }
+  .DepotSteps-dot { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--control-bg); font-weight: 800; font-size: 12px; position: relative; z-index: 1; }
+  .DepotSteps-label { font-size: 11.5px; font-weight: 700; }
+  .is-current { button { color: var(--primary-color); } .DepotSteps-dot { background: var(--primary-color); color: var(--body-bg); } }
+  .is-done { button { color: var(--text-color); } .DepotSteps-dot { background: var(--depot-fresh); color: #fff; } }
+}
+.DepotUpload-panel { min-height: 260px; display: flex; flex-direction: column; gap: 14px; > div { display: flex; flex-direction: column; gap: 14px; } }
+.DepotUpload-foot { display: flex; justify-content: space-between; }
+.DepotChoice {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 14px 8px;
+    border-radius: 12px;
+    border: 2px solid var(--depot-line);
+    background: var(--body-bg);
+    cursor: pointer;
+    color: var(--text-color);
+    .icon { font-size: 20px; color: var(--muted-color); margin-bottom: 4px; }
+    span { font-size: 11.5px; color: var(--muted-color); }
+    &.is-active { border-color: var(--primary-color); .icon { color: var(--primary-color); } }
+  }
+}
+.DepotDrop {
+  display: block;
+  border: 2px dashed var(--muted-more-color, var(--control-bg));
+  border-radius: var(--depot-radius);
+  padding: 26px 18px;
+  cursor: pointer;
+  background: var(--body-bg);
+  transition: border-color 0.15s, background 0.15s;
+  &.is-over { border-color: var(--primary-color); background: var(--control-bg-light, var(--control-bg)); }
+  &.has-file { border-style: solid; border-color: var(--depot-line); padding: 14px 16px; }
+}
+.DepotDrop-empty { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; .icon { font-size: 30px; color: var(--primary-color); margin-bottom: 6px; } span { font-size: 12.5px; } }
+.DepotDrop-file { display: flex; align-items: center; gap: 12px; > .icon { font-size: 28px; color: var(--primary-color); } > div { display: flex; flex-direction: column; flex: 1; min-width: 0; font-size: 12.5px; } }
+.DepotDrop-hash { color: var(--depot-fresh); font-weight: 600; margin-top: 4px; code { font-size: 10.5px; color: var(--text-color); overflow-wrap: anywhere; background: none; } &.is-working { color: var(--muted-color); } }
+.Depot-inputPrefix { display: flex; align-items: stretch; span { display: flex; align-items: center; padding: 0 10px; border-radius: 6px 0 0 6px; background: var(--control-bg-shaded); color: var(--muted-color); font-size: 13px; } .FormControl { border-radius: 0 6px 6px 0; } }
+.Depot-row2 { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+.DepotShots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.DepotShots-item, .DepotShots-add { aspect-ratio: 16 / 10; max-width: 100%; border-radius: 10px; }
+.DepotShots-item {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  .Depot-pill { position: absolute; left: 6px; top: 6px; }
+  button { position: absolute; right: 6px; top: 6px; width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, 0.6); color: #fff; cursor: pointer; font-size: 10px; }
+}
+.DepotShots-add { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 2px dashed var(--muted-more-color, var(--control-bg)); color: var(--muted-color); cursor: pointer; font-size: 12px; .icon { font-size: 18px; } }
+
+.DepotToggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  input { position: absolute; opacity: 0; pointer-events: none; }
+  > span:last-child { display: flex; flex-direction: column; font-size: 13px; b { font-size: 14px; } }
+}
+.DepotToggle-track {
+  flex: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--switch-off-color, var(--control-bg-shaded));
+  position: relative;
+  transition: background 0.2s;
+  margin-top: 1px;
+  &::after { content: ''; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+}
+.DepotToggle input:checked + .DepotToggle-track { background: var(--primary-color); &::after { transform: translateX(18px); } }
+.DepotToggle input:focus-visible + .DepotToggle-track { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+.DepotTagPick {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(~"min(100%, 170px)", 1fr));
+  gap: 8px;
+  button {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid var(--depot-line);
+    background: var(--body-bg);
+    cursor: pointer;
+    color: var(--text-color);
+    > span:last-child { display: flex; flex-direction: column; min-width: 0; .Depot-dim { font-size: 11.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } }
+    &.is-active { border-color: var(--label-color); background: color-mix(in srgb, var(--label-color) 8%, var(--body-bg)); }
+  }
+}
+.DepotTagPick-icon { flex: none; width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; background: var(--label-color); color: #fff; font-size: 12px; }
+.DepotThreadPreview {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.DepotThreadPreview-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px var(--depot-line);
+  background: var(--body-bg);
+  .Avatar { --size: 32px; font-size: 14px; }
+  b { font-size: 14.5px; color: var(--discussion-title-color, var(--heading-color)); }
+}
+.DepotThreadPreview-meta { display: flex; gap: 6px; margin-top: 3px; }
+.DepotReviewCard {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  border-radius: var(--depot-radius);
+  box-shadow: 0 0 0 1px var(--depot-line);
+  h3 { margin: 6px 0 2px; }
+  p { margin: 2px 0 0; font-size: 13px; }
+}
+.DepotReviewCard-art { flex: none; width: 96px; height: 96px; border-radius: 12px; background: var(--control-bg) center / cover; display: grid; place-items: center; color: var(--muted-color); font-size: 22px; }
+
+// ------------------------------------------------------------------ lightbox
+
+.DepotLightbox .Modal-body { padding: 0; background: #0d1117; }
+.DepotLightbox-stage { position: relative; aspect-ratio: 16 / 9; max-width: 100%; }
+.DepotLightbox-prev, .DepotLightbox-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.55); color: #fff; border-radius: 50%; &:hover { background: rgba(0, 0, 0, 0.75); color: #fff; } }
+.DepotLightbox-prev { left: 12px; }
+.DepotLightbox-next { right: 12px; }
+.DepotLightbox-strip { display: flex; gap: 6px; padding: 10px; overflow-x: auto; button { flex: none; width: 80px; height: 46px; border-radius: 6px; border: 2px solid transparent; opacity: 0.6; cursor: pointer; padding: 0; &.is-active { opacity: 1; border-color: #fff; } } }
+
+// ------------------------------------------------------------------ responsive
+
+@media @tablet {
+  .DepotFile { grid-template-columns: minmax(0, 1fr) 260px; gap: 22px; }
+}
+
+@media @phone {
+  .DepotSpotlight { min-height: 0; }
+  .DepotSpotlight-content { padding-top: 28px; padding-bottom: 80px; }
+  .DepotSpotlight-swap { flex-direction: column; align-items: flex-start; }
+  .DepotSpotlight-title { font-size: 28px; }
+  .DepotSpotlight-side { width: 100%; .DepotSpotlight-stat { flex: 1; } }
+  .DepotSpotlight-thumb { width: 56px; height: 34px; }
+  .DepotToolbar-search { order: 5; width: 100%; margin-left: 0; .FormControl { width: 100%; } }
+  .DepotGrid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .DepotCard-tagline, .DepotCard-foot .Depot-spark { display: none; }
+  .DepotCard-body { padding: 10px; }
+  .DepotCard-title { font-size: 14px; }
+  .DepotCard-foot { padding: 8px 10px; }
+  .DepotRow { grid-template-columns: 56px minmax(0, 1fr); gap: 12px; }
+  .DepotRow-thumb { width: 56px; height: 56px; }
+  .DepotRow-trend { display: none; }
+  .DepotRow-stats { grid-column: 2; flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px; min-width: 0; }
+  .DepotRow-tagline { white-space: normal; }
+  .DepotFileHero-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .DepotFileHero-cover { width: 84px; height: 84px; border-radius: 16px; }
+  .DepotFileHero-title { font-size: 26px; }
+  .DepotFile { grid-template-columns: minmax(0, 1fr); }
+  .DepotFile-side, .DepotFile-main, .DepotSideCard { min-width: 0; }
+  // On a phone only the download card comes before the content; the rest of
+  // the sidebar follows it.
+  .DepotFile-side { display: contents; }
+  .DepotSideCard--download { order: -1; }
+  .DepotFile-side > :not(.DepotSideCard--download) { order: 2; }
+  .DepotCard-meta .Depot-dim { display: none; }
+  .DepotCard-foot .Depot-stars .icon:not(:first-child) { display: none; }
+  .DepotGallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 90px; .DepotGallery-item:first-child { grid-column: span 2; grid-row: span 2; } }
+  .DepotChanges-group { grid-template-columns: 1fr; gap: 4px; }
+  .DepotReviews-summary { grid-template-columns: 1fr; gap: 14px; }
+  .Depot-row2 { grid-template-columns: 1fr; }
+  .DepotChoice { gap: 6px; button { padding: 10px 4px; } button span { display: none; } }
+  .DepotShots { grid-template-columns: 1fr 1fr; }
+  .DepotSteps-label { display: none; }
+  .DepotTiles { grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .DepotSpotlight-art, .DepotCard, .DepotTile-art, .DepotCard-art { transition: none; }
+  .DepotSpotlight-swap, .DepotDownload-check { animation: none; }
+  .DepotCard:hover { transform: none; }
+}
+
+// Tiles and heroes sit on artwork, so their text is white in every scheme —
+// stated with enough weight that a theme's link colour cannot recolour it.
+.DepotTiles .DepotTile,
+.DepotTiles .DepotTile:hover,
+.DepotHero .DepotHero-up,
+.DepotSpotlight .DepotSpotlight-ghost {
+  color: #fff;
+}
+.DepotTile-name, .DepotTile-count { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
+
+// Hero contents use the page's own container class, so they line up with the
+// content below under any theme that resizes .Page-container. Display is
+// pinned because some themes make .Page-container a flex row.
+.DepotSpotlight-content.Page-container,
+.DepotHero-inner.Page-container,
+.DepotFileHero-inner.Page-container { display: block; }
+.DepotFileHero-inner.Page-container { display: flex; }
+.DepotSpotlight-picker.Page-container { display: flex; position: absolute; left: 0; right: 0; }
+
+// A theme that moves the nav out of the sidebar (Bespoke does) leaves the
+// column empty; give the space back to the files.
+.DepotPage .Page-sidebar:empty { display: none; }
+.DepotPage .Page-sidebar:empty + .Page-content,
+.DepotPage .Page-content:only-child { flex: 1; min-width: 0; max-width: none; }
+
+// The author card stacks: name and numbers, then the button.
+.DepotSideCard--author { flex-wrap: wrap; .Button { width: 100%; } }
+.Depot-labels .Depot-label:not(.Depot-label--outline),
+.Depot-labels .Depot-label:not(.Depot-label--outline):hover { color: #fff; }
+.Depot-labels .Depot-label--outline,
+.Depot-labels .Depot-label--outline:hover { color: var(--label-color); }
+
+// ------------------------------------------------------------------ real-data additions
+
+// A file with no screenshots: its category's colour, with the category icon.
+.Depot-cover--empty {
+  position: relative;
+  background: linear-gradient(135deg, var(--cover-color, var(--primary-color)), color-mix(in srgb, var(--cover-color, var(--primary-color)) 55%, #000));
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.85);
+}
+.Depot-cover-icon { font-size: 28px; }
+.DepotRow-thumb .Depot-cover-icon, .DepotMore-art .Depot-cover-icon { font-size: 20px; }
+.DepotSpotlight-art.Depot-cover--empty { display: block; }
+.DepotCard-art, .DepotRow-thumb, .DepotFileHero-cover, .DepotMore-art, .DepotDownload-art, .DepotGallery-item, .DepotLightbox-strip button { image-rendering: auto; }
+.DepotCard-labels { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+
+.DepotFileHero-controls { margin-left: auto; align-self: flex-start; .Button { background: rgba(255, 255, 255, 0.14); color: #fff; } }
+.DepotMoreButton { display: flex; justify-content: center; margin-top: 20px; }
+.DepotDrop-hash.is-error { color: var(--alert-error-color, #c0392b); }
+.DepotTimeline-actions { display: inline-flex; gap: 6px; align-items: center; }
+
+.DepotReview-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; }
+.DepotReview-replyEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+  > div { display: flex; gap: 6px; }
+}
+
+.DepotPost {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--depot-line);
+  header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 13px; b { color: var(--heading-color); } }
+  .Post-body { font-size: 14px; line-height: 1.6; }
+}
+a.DepotReply:hover { text-decoration: none; color: var(--text-color); }
+
+.DepotLightbox-stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: auto;
+  min-height: 240px;
+  img { display: block; max-width: 100%; max-height: 75vh; margin: 0 auto; }
+}
+
+.DepotStarPick {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  button {
+    border: 0;
+    background: none;
+    font-size: 30px;
+    color: var(--depot-star);
+    cursor: pointer;
+    padding: 2px;
+    transition: transform 0.1s;
+    &:hover { transform: scale(1.12); }
+  }
+}
+.DepotStarPick-label { text-align: center; margin: 4px 0 14px; }
+
+.DepotChanges-group--added, .DepotChanges-group--changed, .DepotChanges-group--fixed {
+  &.Form-group { display: block; .DepotChanges-kind { display: inline-flex; margin-bottom: 6px; } }
+}
+
+.DepotCard-meta {
+  min-width: 0;
+  .Depot-user { min-width: 0; .username { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+  > .Depot-dim { white-space: nowrap; flex: none; }
+}
+
+// ------------------------------------------------------------------ products
+
+.Depot-pill--price { background: fade(#c47d12, 14%); color: var(--depot-warn); }
+.DepotTiers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  li { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-radius: 8px; background: var(--control-bg); font-size: 13px; }
+  b { color: var(--heading-color); font-variant-numeric: tabular-nums; }
+}
+.DepotBuy { justify-content: center; }
+.DepotOwned { display: flex; gap: 8px; align-items: center; font-weight: 700; color: var(--depot-fresh); }
