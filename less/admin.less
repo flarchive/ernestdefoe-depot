@@ -1,0 +1,43 @@
+// Depot — the categories manager on its admin page.
+
+.DepotCategories {
+  margin-top: 0;
+  .Button { margin-top: 12px; }
+}
+.DepotCategories-list,
+.DepotCategories-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.DepotCategories-children { padding-left: 36px; }
+.DepotCategories-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background: var(--control-bg);
+  cursor: grab;
+  &.is-dragging { opacity: 0.5; }
+  .Button { margin-top: 0; }
+}
+.DepotCategories-grip { color: var(--muted-color); }
+.DepotCategories-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  flex: none;
+}
+.DepotCategories-name {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  .helpText { margin: 0; }
+}
+.DepotCategories-empty { color: var(--muted-color); }
