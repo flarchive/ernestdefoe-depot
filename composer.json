@@ -1,0 +1,76 @@
+{
+    "name": "ernestdefoe/depot",
+    "description": "Depot \u2014 a downloads section for Flarum 2: files with versions and changelogs, checksums, ratings and reviews, and category permissions.",
+    "keywords": [
+        "flarum",
+        "downloads",
+        "files",
+        "resources",
+        "mods"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ernest Defoe",
+            "homepage": "https://ernestdefoe.online"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "flarum/core": "^2.0",
+        "ext-gd": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ErnestDefoe\\Depot\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Depot",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-box-open",
+                "backgroundColor": "#3b5bdb",
+                "color": "#fff"
+            },
+            "optional-dependencies": [
+                "flarum/tags"
+            ]
+        }
+    },
+    "support": {
+        "issues": "https://github.com/ernestdefoe/depot/issues",
+        "source": "https://github.com/ernestdefoe/depot"
+    },
+    "require-dev": {
+        "flarum/phpstan": "^2.0",
+        "flarum/testing": "^2.0",
+        "flarum/tags": "^2.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ErnestDefoe\\Depot\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "@test:integration"
+        ],
+        "test:integration": "phpunit -c tests/phpunit.integration.xml",
+        "test:setup": "@php tests/integration/setup.php",
+        "analyse:phpstan": "phpstan analyse"
+    },
+    "scripts-descriptions": {
+        "test": "Runs all tests.",
+        "test:integration": "Runs all integration tests.",
+        "test:setup": "Sets up a database for use with integration tests. Execute this only once.",
+        "analyse:phpstan": "Run static analysis"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
+}
