@@ -2,13 +2,22 @@
 
 > **Read-only archive of released versions of ernestdefoe/depot.** Not for installation: use [Packagist](https://packagist.org/packages/ernestdefoe/depot) or the [upstream repository](https://github.com/ernestdefoe/depot).
 
-**0** versions archived · Latest: [`v1.3.0`](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.3.0) · License: `MIT` · Flarum: `^2.0`
+**10** versions archived · Latest: [`v1.3.0`](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.3.0) · License: `MIT` · Flarum: `^2.0`
 
 ## Archived Versions
 
 | Version | Released | Flarum | Source |
 |---|---|---|---|
-| — | — | — | — |
+| `v1.0.0` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.0.0) |
+| `v1.0.1` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.0.1) |
+| `v1.0.2` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.0.2) |
+| `v1.1.0` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.1.0) |
+| `v1.1.1` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.1.1) |
+| `v1.1.2` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.1.2) |
+| `v1.2.0` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.2.0) |
+| `v1.2.1` | 2026-10-15 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.2.1) |
+| `v1.2.2` | 2026-10-16 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.2.2) |
+| `v1.3.0` | 2026-10-17 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-depot/tree/archive/v1.3.0) |
 
 Catalog entry: [packages/ernestdefoe-depot.json](https://github.com/flarchive/archive-index/blob/main/packages/ernestdefoe-depot.json)
 
